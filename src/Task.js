@@ -28,6 +28,15 @@ class Task {
      * @private
      */
     this._type = ASYNC;
+
+    /**
+     * Task hrtime
+     *
+     * @see https://nodejs.org/api/process.html#process_process_hrtime_time
+     * @type {Array}
+     * @private
+     */
+    this._hrtime =  process.hrtime();
   }
 
   /**
@@ -83,6 +92,15 @@ class Task {
   set type(value) {
     this._validateType(value);
     this._type = value;
+  }
+
+  /**
+   * Retrieves the Task hrtime
+   *
+   * @return {Array}
+   */
+  get hrtime() {
+    return this._hrtime;
   }
 
   /**
