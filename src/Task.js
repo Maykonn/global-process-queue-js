@@ -4,7 +4,13 @@ const ASYNC = 'ASYNC';
 
 class Task {
 
-  constructor() {
+  /**
+   * Task constructor
+   *
+   * @param {Function|null} operation
+   * @param {string} type
+   */
+  constructor(operation = null, type = ASYNC) {
     /**
      * Task ID
      *
@@ -14,12 +20,15 @@ class Task {
     this._id = null;
 
     /**
-     * Task value
+     * Task operation
      *
      * @type {Function|null}
      * @private
      */
-    this._value = null;
+    this._operation = null;
+    if (operation !== null) {
+      this.operation = operation;
+    }
 
     /**
      * Task type
@@ -27,16 +36,19 @@ class Task {
      * @type {string}
      * @private
      */
-    this._type = ASYNC;
+    this._type = type;
+    if (type !== ASYNC) {
+      this.type = type;
+    }
 
     /**
-     * Task hrtime
+     * Task high-resolution real time in a [seconds, nanoseconds] tuple Array
      *
      * @see https://nodejs.org/api/process.html#process_process_hrtime_time
      * @type {Array}
      * @private
      */
-    this._hrtime =  process.hrtime();
+    this._hrtime = process.hrtime();
   }
 
   /**
@@ -49,30 +61,30 @@ class Task {
   }
 
   /**
-   * Retrieves the task value
+   * Retrieves the task operation
    *
    * @return {Function}
    */
-  get value() {
-    return this._value;
+  get operation() {
+    return this._operation;
   }
 
   /**
-   * Configures the task value
+   * Configures the task operation
    *
-   * @param {Function} value
+   * @param {Function} operation
    */
-  set value(value) {
-    if (Task.isFunction(value)) {
-      this._id = crypto.createHash('md5').update(value.toString()).digest('hex');
-      this._value = (async () => {
-        return value;
+  set operation(operation) {
+    if (Task.isFunction(operation)) {
+      this._id = crypto.createHash('md5').update(operation.toString()).digest('hex');
+      this._operation = (async () => {
+        return operation;
       });
 
       return;
     }
 
-    throw new Error('Task value must be a Function');
+    throw new Error('Task operation must be a Function');
   }
 
   /**
@@ -95,9 +107,10 @@ class Task {
   }
 
   /**
-   * Retrieves the Task hrtime
+   * Retrieves the Task high-resolution real time in a [seconds, nanoseconds] tuple Array
    *
-   * @return {Array}
+   * @see https://nodejs.org/api/process.html#process_process_hrtime_time
+   * @return {Array} [seconds, nanoseconds]
    */
   get hrtime() {
     return this._hrtime;
