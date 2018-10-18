@@ -1,5 +1,9 @@
-const GlobalProcessQueue = require('GlobalProcessQueue.js');
+const GlobalProcessQueue = require('./GlobalProcessQueue.js');
+const Task = require('./Task.js');
 
+/**
+ * Global Process API
+ */
 class GlobalProcess {
 
   /**
@@ -14,14 +18,14 @@ class GlobalProcess {
      *
      * @type Function
      */
-    this._initializer = this._isFunction(initializer) ? initializer : null;
+    this._initializer = Task.API.isFunction(initializer) ? initializer : null;
 
     /**
      * When given, the finisher function will run for all executions
      *
      * @type Function
      */
-    this._finisher = this._isFunction(finisher) ? finisher : null;
+    this._finisher = Task.API.isFunction(finisher) ? finisher : null;
 
     /**
      * The process queue
@@ -33,25 +37,23 @@ class GlobalProcess {
   }
 
   /**
-   * Retrieve the process queue
+   * Add a new operation to the process queue
    *
-   * @return {GlobalProcessQueue}
+   * @param {Function} operation
+   * @param {string|null} type
+   * @param {number|null} sequence
    */
-  get queue() {
-    return this._queue;
+  add(operation, type = null, sequence = null) {
+    return this._queue.add(operation, type, sequence);
   }
 
-  /**
-   * Verify if the func param is a function
-   *
-   * @param {*} func
-   * @return {boolean}
-   * @private
-   */
-  _isFunction(func) {
-    return typeof func === 'function';
+  exec() {
+    return this._queue.process();
   }
-
 }
 
-module.exports = GlobalProcess;
+module.exports = {
+  Handler: GlobalProcess,
+  AWAIT: Task.AWAIT,
+  ASYNC: Task.ASYNC
+};
