@@ -56,7 +56,9 @@ class Task {
   set value(value) {
     if (this.isFunction(value)) {
       this._id = hash(value);
-      this._value = value;
+      this._value = (async () => {
+        return value;
+      });
     }
 
     throw new Error('Task value must be a Function');
