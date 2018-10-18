@@ -35,8 +35,8 @@ const CartFlow = {
  * Example of a cart process
  */
 const CartProcess = new Process.Handler(initializer, finisher);
-CartProcess.add(CartFlow.CheckCartItems, Process.TypeAwait, 1);
-CartProcess.add(CartFlow.UpdateStock, Process.TypeAsync, 3);
-CartProcess.add(CartFlow.CalculateTotal, Process.TypeAwait, 2);
+CartProcess.add(CartFlow.CheckCartItems, Process.AWAIT, 1);
+CartProcess.add(CartFlow.UpdateStock, Process.ASYNC, 3);
+CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 2);
 CartProcess.exec();
 
