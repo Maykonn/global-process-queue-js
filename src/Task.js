@@ -1,4 +1,4 @@
-const hash = require('object-hash');
+const crypto = require('crypto');
 const AWAIT = 'AWAIT';
 const ASYNC = 'ASYNC';
 
@@ -54,11 +54,13 @@ class Task {
    * @param {Function} value
    */
   set value(value) {
-    if (this.isFunction(value)) {
-      this._id = hash(value);
+    if (Task.isFunction(value)) {
+      this._id = crypto.createHash('md5').update(value.toString()).digest('hex');
       this._value = (async () => {
         return value;
       });
+
+      return;
     }
 
     throw new Error('Task value must be a Function');
