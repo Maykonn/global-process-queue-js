@@ -8,7 +8,7 @@ class Task {
    * Task constructor
    *
    * @param {Function|null} operation
-   * @param {AWAIT|ASYNC|null} type
+   * @param {string} type
    */
   constructor(operation = null, type = ASYNC) {
     /**
@@ -33,7 +33,7 @@ class Task {
     /**
      * Task type
      *
-     * @type {AWAIT|ASYNC}
+     * @type {string}
      * @private
      */
     this._type = type;
@@ -90,7 +90,7 @@ class Task {
   /**
    * Retrieves the Task type
    *
-   * @return {AWAIT|ASYNC}
+   * @return {string}
    */
   get type() {
     return this._type;
@@ -99,7 +99,7 @@ class Task {
   /**
    * Configures the Task type
    *
-   * @param {AWAIT|ASYNC} value
+   * @param {string} value
    */
   set type(value) {
     this._validateType(value);
@@ -129,7 +129,7 @@ class Task {
   /**
    * Throws Error if type param is not AWAIT or ASYNC
    *
-   * @param {AWAIT|ASYNC} type
+   * @param {string} type
    * @return {boolean}
    * @private
    */
