@@ -41,6 +41,10 @@ const CartFlow = {
 const CartProcess = new Process.Handler(initializer, finisher);
 CartProcess.add(CartFlow.CheckCartItems, Process.AWAIT, 1);
 CartProcess.add(CartFlow.UpdateStock, Process.ASYNC, 3);
-CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 2);
-CartProcess.exec();
+CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 4);
+
+const TaskToRemove = CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 2);
+CartProcess.del(TaskToRemove);
+
+CartProcess.exec(); // the queue is executed and emptied
 
