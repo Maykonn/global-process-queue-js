@@ -42,11 +42,27 @@ class GlobalProcess {
    * @param {Function} operation
    * @param {string|null} type
    * @param {number|null} sequence
+   * @return {Task}
    */
   add(operation, type = null, sequence = null) {
     return this._queue.add(operation, type, sequence);
   }
 
+  /**
+   * Remove a Task from the queue
+   *
+   * @param {Task} task
+   * @return {boolean}
+   */
+  del(task) {
+    return this._queue.del(task);
+  }
+
+  /**
+   * Process the queue
+   *
+   * @return {boolean}
+   */
   exec() {
     return this._queue.process();
   }
