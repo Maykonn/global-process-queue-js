@@ -7,10 +7,10 @@ class Task {
   /**
    * Task constructor
    *
-   * @param {Function|null} operation
-   * @param {string} type
+   * @param {Function} operation
+   * @param {string|null} type
    */
-  constructor(operation = null, type = ASYNC) {
+  constructor(operation, type = ASYNC) {
     /**
      * Task hash
      *
@@ -31,13 +31,11 @@ class Task {
     /**
      * Task operation
      *
-     * @type {Function|null}
+     * @type {Function}
      * @private
      */
     this._operation = null;
-    if (operation !== null) {
-      this.operation = operation;
-    }
+    this.operation = operation;
 
     /**
      * Task type
@@ -45,10 +43,8 @@ class Task {
      * @type {string}
      * @private
      */
-    this._type = type;
-    if (type !== ASYNC) {
-      this.type = type;
-    }
+    this._type = null;
+    this.type = type;
   }
 
   /**
