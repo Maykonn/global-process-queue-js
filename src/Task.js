@@ -82,7 +82,6 @@ class Task {
    */
   set operation(operation) {
     if (Task.isFunction(operation)) {
-
       this._operation = (async () => {
         return operation;
       });
