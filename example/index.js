@@ -9,7 +9,7 @@ const Process = require('../src/GlobalProcess.js');
 const optionalInitializer = () => {
   // global.DB = (new MySQL()).getConnectionFromPool();
   return new Promise((resolve) => setTimeout(() => {
-    console.log('The global process initializer');
+    console.log('Global process initializer()');
     resolve();
   }, 1000));
 };
@@ -21,9 +21,9 @@ const optionalInitializer = () => {
 const optionalFinisher = () => {
   // global.DB.finish();
   return new Promise((resolve) => setTimeout(() => {
-    console.log('The global process finisher');
+    console.log('Global process finisher()');
     resolve();
-  }, 2000));
+  }, 1000));
 
 };
 
@@ -34,13 +34,19 @@ const optionalFinisher = () => {
  */
 const CartFlow = {
   CheckCartItems: async () => {
-    return new Promise((resolve) => setTimeout(resolve, 1500));
+    return new Promise((resolve) => setTimeout(() => {
+      console.log('CartFlow.CheckCartItems()');
+      resolve();
+    }, 1500));
   },
   CalculateTotal: async () => {
-    return new Promise((resolve) => setTimeout(resolve, 3000));
+    return new Promise((resolve) => setTimeout(() => {
+      console.log('CartFlow.CalculateTotal()');
+      resolve();
+    }, 3000));
   },
   UpdateStock: () => {
-    console.log('This is a normal function');
+    console.log('CartFlow.UpdateStock()');
   }
 };
 
@@ -48,10 +54,16 @@ const CartFlow = {
  * Example of a cart process
  */
 const CartProcess = new Process.Handler(optionalInitializer, optionalFinisher);
-CartProcess.add(CartFlow.CheckCartItems, Process.AWAIT, 1);
-CartProcess.add(CartFlow.UpdateStock, Process.ASYNC, 3);
-CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 4);
+CartProcess.add(CartFlow.CheckCartItems, Process.ASYNC, 1);
 
+// will be executed after the first process, because the first process have a delay of 1.5s
+// you can await the the first process changing the type to Process.AWAIT (try by yourself)
+CartProcess.add(CartFlow.UpdateStock, Process.ASYNC, 3);
+
+// will be pushed into the queue at the latest position
+CartProcess.add(CartFlow.CalculateTotal, Process.ASYNC);
+
+// testing the del method
 const TaskToRemove = CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 2);
 CartProcess.del(TaskToRemove);
 
@@ -59,15 +71,15 @@ CartProcess.del(TaskToRemove);
 // CartProcess.exec();
 
 // work with the promise response...
-const process = CartProcess.exec();
-process.then(done => {
-  console.log('DONE:', done);
-});
+// const process = CartProcess.exec();
+// process.then(done => {
+//   console.log('DONE:', done);
+// });
 
 // or yet await the response of CartProcess.exec() either
-// (async () => {
-//   const done = await CartProcess.exec(); // the queue is executed and emptied
-//   if (done) {
-//     console.log('DONE:', done);
-//   }
-// })();
+(async () => {
+  const done = await CartProcess.exec(); // the queue is executed and emptied
+  if (done) {
+    console.log('DONE:', done);
+  }
+})();

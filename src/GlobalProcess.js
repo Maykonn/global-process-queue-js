@@ -64,23 +64,17 @@ class GlobalProcess {
    * @return {Promise<void>}
    */
   async exec() {
-    return await (async () => {
-      if (Task.API.isFunction(this._initializer)) {
-        await (async () => {
-          return this._initializer();
-        })();
-      }
+    if (Task.API.isFunction(this._initializer)) {
+      await this._initializer();
+    }
 
-      const response = this._queue.process();
+    const response = await this._queue.process();
 
-      if (Task.API.isFunction(this._finisher)) {
-        await (async () => {
-          return this._finisher();
-        })();
-      }
+    if (Task.API.isFunction(this._finisher)) {
+      await this._finisher();
+    }
 
-      return response;
-    })();
+    return response;
   }
 }
 

@@ -82,9 +82,7 @@ class Task {
    */
   set operation(operation) {
     if (Task.isFunction(operation)) {
-      this._operation = (async () => {
-        return operation;
-      });
+      this._operation = operation;
 
       // the hash is able to be created just after the Task operation is configured
       this._hash = this._generateHash();

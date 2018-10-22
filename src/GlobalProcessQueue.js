@@ -23,13 +23,16 @@ class GlobalProcessQueue {
    * @return {Task}
    */
   add(operation, type = null, sequence = null) {
-    if (typeof operation === 'undefined') {
-      throw new Error('The operation param is required');
-    }
-
-    // TODO: Put the task on queue obeying the sequence
     const TaskOperation = new Task.API(operation, type);
-    this._queue[sequence] = TaskOperation;
+
+    let index = this._sanitizeSequence(sequence);
+
+    if (typeof index === 'number') {
+      this._queue[index] = TaskOperation;
+    } else {
+      // index is not a valid value, will be pushed to the end of the array
+      this._queue.push(TaskOperation);
+    }
 
     return TaskOperation;
   }
@@ -48,15 +51,52 @@ class GlobalProcessQueue {
     throw new Error('TaskToRemove param must be an instance of Task.API');
   }
 
-  process() {
-    // Removing the falsy elements from the queue (for example: empty items may
-    // occur on the queue when the is pushed into the queue sequences
-    // like 0,2,3 where here the position 1 is an empty item on queue)
-    const queue = this._queue.filter(Boolean);
+  /**
+   * Process the queue of Tasks
+   *
+   * @return {boolean}
+   */
+  async process() {
+    await (async () => {
+      this._queue = this._clearQueueInvalidPositions();
 
-    // implementing...
+      for (let currentTask of this._queue) {
+        if (currentTask.type === Task.AWAIT) {
+          await currentTask.operation();
+        } else {
+          currentTask.operation();
+        }
+      }
+    })();
+  }
 
-    return true;
+  /**
+   * Cast the sequence param to a value that is accepted as an array index
+   *
+   * @param sequence
+   * @return {number|undefined}
+   * @private
+   */
+  _sanitizeSequence(sequence) {
+    let value = parseInt(sequence);
+
+    if (isNaN(value)) {
+      value = undefined; // the last po
+    }
+
+    return value;
+  }
+
+  /**
+   * Removes falsy elements from the queue (for example: empty items may
+   * occur on the queue when the is pushed into the queue sequences
+   * like 0,2,3 where here the position 1 is an empty item on queue)
+   *
+   * @return {*[]}
+   * @private
+   */
+  _clearQueueInvalidPositions() {
+    return this._queue.filter(Boolean);
   }
 }
 
