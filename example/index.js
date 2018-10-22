@@ -6,7 +6,7 @@ const Process = require('../src/GlobalProcess.js');
  * This function will be called on the process queue start
  * Here you can start a mysql or redis connection for example
  */
-const initializer = () => {
+const optionalInitializer = () => {
   // global.DB = (new MySQL()).getConnectionFromPool();
   return new Promise((resolve) => setTimeout(() => {
     console.log('The global process initializer');
@@ -18,7 +18,7 @@ const initializer = () => {
  * This function will be called when all process on the queue is executed
  * Here you release the mysql connection from pool or a redis connection for example
  */
-const finisher = () => {
+const optionalFinisher = () => {
   // global.DB.finish();
   return new Promise((resolve) => setTimeout(() => {
     console.log('The global process finisher');
@@ -47,7 +47,7 @@ const CartFlow = {
 /**
  * Example of a cart process
  */
-const CartProcess = new Process.Handler(initializer, finisher);
+const CartProcess = new Process.Handler(optionalInitializer, optionalFinisher);
 CartProcess.add(CartFlow.CheckCartItems, Process.AWAIT, 1);
 CartProcess.add(CartFlow.UpdateStock, Process.ASYNC, 3);
 CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 4);
