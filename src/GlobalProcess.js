@@ -18,14 +18,14 @@ class GlobalProcess {
      *
      * @type Function
      */
-    this._initializer = Task.API.isFunction(initializer) ? initializer : null;
+    this._initializer = initializer;
 
     /**
      * When given, the finisher function will run for all executions
      *
      * @type Function
      */
-    this._finisher = Task.API.isFunction(finisher) ? finisher : null;
+    this._finisher = finisher;
 
     /**
      * The process queue
@@ -61,10 +61,26 @@ class GlobalProcess {
   /**
    * Process the queue
    *
-   * @return {boolean}
+   * @return {Promise<void>}
    */
-  exec() {
-    return this._queue.process();
+  async exec() {
+    return await (async () => {
+      if (Task.API.isFunction(this._initializer)) {
+        await (async () => {
+          return this._initializer();
+        })();
+      }
+
+      const response = this._queue.process();
+
+      if (Task.API.isFunction(this._finisher)) {
+        await (async () => {
+          return this._finisher();
+        })();
+      }
+
+      return response;
+    })();
   }
 }
 
