@@ -1,3 +1,5 @@
+console.log('CART EXAMPLE');
+
 const Process = require('../src/GlobalProcess.js');
 
 /**
@@ -6,7 +8,10 @@ const Process = require('../src/GlobalProcess.js');
  */
 const initializer = () => {
   // global.DB = (new MySQL()).getConnectionFromPool();
-  console.log('The global process initializer');
+  return new Promise((resolve) => setTimeout(() => {
+    console.log('The global process initializer');
+    resolve();
+  }, 1000));
 };
 
 /**
@@ -15,7 +20,11 @@ const initializer = () => {
  */
 const finisher = () => {
   // global.DB.finish();
-  console.log('The global process finisher');
+  return new Promise((resolve) => setTimeout(() => {
+    console.log('The global process finisher');
+    resolve();
+  }, 2000));
+
 };
 
 /**
@@ -25,10 +34,10 @@ const finisher = () => {
  */
 const CartFlow = {
   CheckCartItems: async () => {
-    return new Promise((resolve) => setTimeout(resolve, 500));
+    return new Promise((resolve) => setTimeout(resolve, 1500));
   },
   CalculateTotal: async () => {
-    return new Promise((resolve) => setTimeout(resolve, 1000));
+    return new Promise((resolve) => setTimeout(resolve, 3000));
   },
   UpdateStock: () => {
     console.log('This is a normal function');
@@ -46,5 +55,19 @@ CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 4);
 const TaskToRemove = CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 2);
 CartProcess.del(TaskToRemove);
 
-CartProcess.exec(); // the queue is executed and emptied
+// you may need an async execution, or...
+// CartProcess.exec();
 
+// work with the promise response...
+const process = CartProcess.exec();
+process.then(done => {
+  console.log('DONE:', done);
+});
+
+// or yet await the response of CartProcess.exec() either
+// (async () => {
+//   const done = await CartProcess.exec(); // the queue is executed and emptied
+//   if (done) {
+//     console.log('DONE:', done);
+//   }
+// })();
