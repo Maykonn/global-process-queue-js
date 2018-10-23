@@ -107,7 +107,7 @@ class GlobalProcessQueue {
     let value = parseInt(sequence);
 
     if (isNaN(value)) {
-      value = undefined; // the last po
+      value = undefined;
     }
 
     return value;
