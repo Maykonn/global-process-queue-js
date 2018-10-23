@@ -12,6 +12,32 @@ class GlobalProcessQueue {
      * @private
      */
     this._queue = [];
+
+    /**
+     * Hashes from already executed Tasks
+     *
+     * @type {Array}
+     * @private
+     */
+    this._executedList = [];
+  }
+
+  /**
+   * Retrieves a list of hashes from already executed Tasks
+   *
+   * @return {Array}
+   */
+  get executedList() {
+    return this._executedList;
+  }
+
+  /**
+   * Retrieves the queue length
+   *
+   * @return {number}
+   */
+  get length() {
+    return this._queue.length;
   }
 
   /**
@@ -52,22 +78,22 @@ class GlobalProcessQueue {
   }
 
   /**
-   * Process the queue of Tasks
+   *
    *
    * @return {boolean}
    */
   async process() {
-    await (async () => {
-      this._queue = this._clearQueueInvalidPositions();
+    return new Promise(async resolve => {
+      this._queue.map(async currentTask => {
+        const operation = currentTask.operation;
+        currentTask.type === Task.AWAIT ? await operation() : operation();
 
-      for (let currentTask of this._queue) {
-        if (currentTask.type === Task.AWAIT) {
-          await currentTask.operation();
-        } else {
-          currentTask.operation();
+        this._executedList.push(currentTask.hash);
+        if (this._queue.length === this._executedList.length) {
+          return resolve(true);
         }
-      }
-    })();
+      });
+    });
   }
 
   /**
@@ -98,6 +124,7 @@ class GlobalProcessQueue {
   _clearQueueInvalidPositions() {
     return this._queue.filter(Boolean);
   }
+
 }
 
 module.exports = GlobalProcessQueue;

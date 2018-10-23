@@ -17,15 +17,21 @@ class GlobalProcess {
      * When given, the initializer function will run for all executions
      *
      * @type Function
+     * @TODO put this into a promise then will be possible to create a method like onInitialized();
      */
-    this._initializer = initializer;
+    this._initializer = (async () => {
+      return await initializer();
+    });
 
     /**
      * When given, the finisher function will run for all executions
      *
      * @type Function
+     * @TODO put this into a promise then will be possible to create a method like onFinished();
      */
-    this._finisher = finisher;
+    this._finisher = (async () => {
+      return await finisher();
+    });
 
     /**
      * The process queue
@@ -61,20 +67,23 @@ class GlobalProcess {
   /**
    * Process the queue
    *
-   * @return {Promise<void>}
+   * @return {Promise}
    */
   async exec() {
-    if (Task.API.isFunction(this._initializer)) {
-      await this._initializer();
-    }
+    return new Promise(async resolve => {
+      if (Task.API.isFunction(this._initializer)) {
+        await this._initializer();
+      }
 
-    const response = await this._queue.process();
+      const processing = this._queue.process();
 
-    if (Task.API.isFunction(this._finisher)) {
-      await this._finisher();
-    }
-
-    return response;
+      if (Task.API.isFunction(this._finisher)) {
+        processing.then(async () => {
+          resolve(true);
+          this._finisher();
+        });
+      }
+    });
   }
 }
 

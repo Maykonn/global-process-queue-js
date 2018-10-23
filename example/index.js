@@ -24,7 +24,6 @@ const optionalFinisher = () => {
     console.log('Global process finisher()');
     resolve();
   }, 1000));
-
 };
 
 /**
@@ -61,25 +60,25 @@ CartProcess.add(CartFlow.CheckCartItems, Process.ASYNC, 1);
 CartProcess.add(CartFlow.UpdateStock, Process.ASYNC, 3);
 
 // will be pushed into the queue at the latest position
-CartProcess.add(CartFlow.CalculateTotal, Process.ASYNC);
+CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT);
 
 // testing the del method
 const TaskToRemove = CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 2);
 CartProcess.del(TaskToRemove);
 
 // you may need an async execution, or...
-// CartProcess.exec();
+CartProcess.exec();
 
-// work with the promise response...
+// need to work with a promise response...
 // const process = CartProcess.exec();
 // process.then(done => {
 //   console.log('DONE:', done);
 // });
 
 // or yet await the response of CartProcess.exec() either
-(async () => {
-  const done = await CartProcess.exec(); // the queue is executed and emptied
-  if (done) {
-    console.log('DONE:', done);
-  }
-})();
+// (async () => {
+//   const done = await CartProcess.exec(); // the queue is executed and emptied
+//   if (done) {
+//     console.log('DONE:', done);
+//   }
+// })();
