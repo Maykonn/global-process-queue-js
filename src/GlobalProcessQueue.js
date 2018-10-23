@@ -78,9 +78,9 @@ class GlobalProcessQueue {
   }
 
   /**
+   * Process the queue
    *
-   *
-   * @return {boolean}
+   * @return {Promise}
    */
   async process() {
     return new Promise(async resolve => {
