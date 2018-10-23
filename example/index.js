@@ -3,7 +3,7 @@ console.log('CART EXAMPLE');
 const Process = require('../src/GlobalProcess.js');
 
 /**
- * This function will be called on the process queue start
+ * This function will be called before the process queue start
  * Here you can start a mysql or redis connection for example
  */
 const optionalInitializer = () => {
@@ -15,7 +15,7 @@ const optionalInitializer = () => {
 };
 
 /**
- * This function will be called when all process on the queue is executed
+ * This function will be called when all process on the queue are executed
  * Here you release the mysql connection from pool or a redis connection for example
  */
 const optionalFinisher = () => {
