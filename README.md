@@ -1,15 +1,15 @@
 # Global Process Queue
 
-With the **Global Process Queue** you can manage a queue of execution for your system processes. This package provide
+With the **Global Process Queue** you can manage a queue of execution for your system processes. This package provides
 an API to create an initializer and a finisher to run before and after your queue of processes is emptied (optional).
 
 ## Example: A hypothetical case
 
-Suppose you have a Cart on your e-commerce and this cart have several tasks, or processes (*Add Product*, *Remove Product*,
-*Calculate Total*, etc). So with the Global Process Queue you can orchestrate the *Cart Flow* - that is your *System Process Flow* - 
+Suppose you have a Cart on your e-commerce and this cart has several tasks, or processes (*Add Product*, *Remove Product*,
+*Calculate Total*, etc). So with the Global Process Queue, you can orchestrate the *Cart Flow* - that is your *System Process Flow* - 
 and what happens globally via the initializer and the finisher methods.
 
-**We will use this simple example to provide a documentation as closer as possible to a real world example.** 
+**We will use this simple example to provide a documentation as close as possible to a real-world example.** 
 
 ### The Initializer method
 
@@ -39,9 +39,9 @@ later on this documentation.
 ### The Finisher method
 
 Similar to the Initializer method, the Finisher method provides you an API to create a global process, which runs after
-the the queue execution.
+the queue execution.
 
-As an example suppose that you needs to close the MySQL Connection just after all process are executed. May you can do it: 
+As an example suppose that you need to close the MySQL Connection just after all process is executed. May you do it: 
 
 ```JS
 /**
