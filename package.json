@@ -1,13 +1,29 @@
 {
   "name": "global-process-queue-js",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "homepage": "https://github.com/Maykonn/global-process-queue-js#readme",
+  "description": "With the Global Process Queue you can create a Queue of ASYNC and AWAIT Processes for your Node.JS System. This Package provides an API to create an Initializer and a Finisher Tasks to run before and after your Processes Queue be executed.",
+  "keywords": [
+    "queue",
+    "process",
+    "processes",
+    "task",
+    "global",
+    "nodejs",
+    "node-js",
+    "javascript",
+    "js"
+  ],
+  "author": "Maykonn Welington Candido <maykonn@outlook.com> (https://github.com/Maykonn)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maykonn/global-process-queue-js"
   },
-  "author": "",
-  "license": "ISC",
+  "main": "./src/GlobalProcess.js",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Maykonn/global-process-queue-js/issues"
+  },
   "dependencies": {
-  }
+  },
+  "version": "1.0.0"
 }
