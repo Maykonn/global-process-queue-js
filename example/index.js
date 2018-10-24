@@ -77,7 +77,7 @@ CartProcess.exec();
 
 // or yet await the response of CartProcess.exec() either
 // (async () => {
-//   const done = await CartProcess.exec(); // the queue is executed and emptied
+//   const done = await CartProcess.exec();
 //   if (done) {
 //     console.log('DONE:', done);
 //   }
