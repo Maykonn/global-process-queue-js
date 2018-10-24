@@ -18,12 +18,12 @@
     "type": "git",
     "url": "git+https://github.com/Maykonn/global-process-queue-js"
   },
-  "main": "./src/GlobalProcess.js",
+  "main": "src/GlobalProcess.js",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Maykonn/global-process-queue-js/issues"
   },
   "dependencies": {
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
