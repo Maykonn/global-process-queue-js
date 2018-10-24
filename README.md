@@ -1,6 +1,6 @@
 # Global Process Queue
 
-With the **Global Process Queue** you can create a Queue of ASYNC and AWAIT Processes for your Node.JS System. 
+With the **Global Process Queue**, you can create a Queue of ASYNC and AWAIT Processes for your Node.JS System. 
 This Package provides an API to create an Initializer and a Finisher Tasks to run before and after your
 Processes Queue be executed.
 
@@ -11,7 +11,7 @@ that works like a real-world use case, though a simple example.
 
 ### A Hypothetical Use Case
 
-Suppose you have a Cart on your e-commerce and this cart has several tasks, or processes (*Add Product*, *Remove Product*,
+Suppose you have a Cart on your e-commerce and this cart has several tasks or processes (*Add Product*, *Remove Product*,
 *Calculate Total*, etc). So with the Global Process Queue, you can orchestrate the *Cart Flow* - that is your *System Process Flow* - 
 and what happens globally via the initializer and the finisher methods, both optional.
 
@@ -39,12 +39,12 @@ const optionalInitializer = () => {
 ```
 
 Note that we declare a global variable called `DB`, to be accessible by your others methods, we'll see about it further, 
-later on this documentation.
+later on, this documentation.
 
 
 ## The Finisher Method
 
-Similar to the Initializer method, the Finisher method provides you an API to create a global process, which runs after
+Similar to the Initializer method, the Finisher method provides you with an API to create a global process, which runs after
 the queue execution.
 
 As an example suppose that you need to close the MySQL Connection just after all process is executed. May you do it: 
@@ -62,13 +62,13 @@ const optionalFinisher = () => {
 
 ## The System Flow and The Process Queue
 
-With the Process Queue API you can add or remove ASYNC and AWAIT processes into a Queue.
+With the Process Queue API, you can add or remove ASYNC and AWAIT processes into a Queue.
 You can pass the Initializer and the Finisher methods to the Queue Handler to be executed before and after the queue process.
 
 ### The System Flow
 
-To make the most with the package you need keep your system processes well delimited. 
-First, you need to create your program flow. In the bellow example a `CartFlow` object is created to abstract the flow.
+To make the most with the package you need to keep your system processes well delimited. 
+First, you need to create your program flow. In the below example, a `CartFlow` object is created to abstract the flow.
 You can work in a functional way, for example:
 
 ```JS
@@ -106,7 +106,7 @@ Finisher and your custom methods.
 
 #### Adding Processes to the Queue
 
-You can add processes into a desired position of the queue execution (optional), note the third parameter of the `add()` method:
+You can add processes into the desired position of the queue execution (optional), note the third parameter of the `add()` method:
 
 ```JS
 const Process = require('global-process-queue');  
@@ -132,7 +132,7 @@ May you need to do something after the queue execution, you can do a similar thi
 
 #### Removing Process From the Queue 
 
-Sometimes, depending of your flow, may you need to remove an specific process from the queue, may you do it:
+Sometimes, depending on your flow, may you need to remove a specific process from the queue, may you do it:
 
 ```JS
 const TaskToRemove = CartProcess.add(CartFlow.CalculateTotal, Process.AWAIT, 2);  
@@ -169,7 +169,7 @@ process.then(done => {
 CartProcess.add(method, methodType, positionNumber);
 ```
 
-- You can have ASYNC and AWAIT processes
+- You can have ASYNC and AWAIT processes.
 
 - All processes will be executed after the optional initializer method change to a ready state.
 
@@ -187,7 +187,7 @@ Github Issues are dedicated to bug reports and feature requests.
 
 # Contributing
 
-You can contribute to this project cloning this repository and in your clone you just need to create a new branch using a 
+You can contribute to this project cloning this repository and in your clone, you just need to create a new branch using a 
 name related to the new functionality which you'll create.  
 When you finish your work, you just need to create a pull request which will be revised, merged to master branch (if the code 
 doesn't break the project) and published as a new release.
