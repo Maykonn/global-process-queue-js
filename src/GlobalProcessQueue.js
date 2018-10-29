@@ -84,6 +84,8 @@ class GlobalProcessQueue {
    */
   async process() {
     return new Promise(async resolve => {
+      this._queue = this._clearQueueInvalidPositions();
+
       this._queue.map(async currentTask => {
         const operation = currentTask.operation;
         currentTask.type === Task.AWAIT ? await operation() : operation();
