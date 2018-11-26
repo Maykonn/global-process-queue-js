@@ -20,7 +20,9 @@ class GlobalProcess {
      * @TODO put this into a promise then will be possible to create a method like onInitialized();
      */
     this._initializer = (async () => {
-      return await initializer();
+      if (initializer) {
+        return await initializer();
+      }
     });
 
     /**
@@ -30,7 +32,9 @@ class GlobalProcess {
      * @TODO put this into a promise then will be possible to create a method like onFinished();
      */
     this._finisher = (async () => {
-      return await finisher();
+      if (finisher) {
+        return await finisher();
+      }
     });
 
     /**
